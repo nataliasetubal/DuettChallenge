@@ -17,6 +17,17 @@ namespace Backend.Services
 
         public async Task CreateUserAsync(User user)
         {
+            
+            if (await _context.Users.AnyAsync(u => u.Email == user.Email))
+            {
+                throw new ArgumentException($"Email '{user.Email}' is already in use.");
+            }
+            
+            if (await _context.Users.AnyAsync(u => u.CPF == user.CPF))
+            {
+                throw new ArgumentException($"CPF '{user.CPF}' is already in use.");
+            }
+
             _context.Users.Add(user);
             await _context.SaveChangesAsync();
         }

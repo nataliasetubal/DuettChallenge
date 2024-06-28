@@ -1,4 +1,5 @@
 ﻿using System.ComponentModel.DataAnnotations;
+//www.macoratti.net/13/12/c_vdda.htm
 
 namespace Backend.Models
 {
@@ -6,12 +7,13 @@ namespace Backend.Models
     {
         public int Id { get; set; }
 
-        [Required]
+        [Required(ErrorMessage = "Username is required", AllowEmptyStrings = false)]
         [StringLength(100)]
         public string Name { get; set; }
 
-        [Required]
+        [Required(ErrorMessage = "Email is required", AllowEmptyStrings = false)]
         [EmailAddress]
+        [RegularExpression(".+\\@.+\\..+", ErrorMessage = "Please provide a valid email...")]
         public string Email { get; set; }
 
         [Required]
