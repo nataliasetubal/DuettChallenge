@@ -1,7 +1,8 @@
-﻿using Backend.Data;
+﻿using Microsoft.EntityFrameworkCore;
+using Backend.Data;
 using Backend.Models;
 using System.Collections.Generic;
-using System.Linq;
+using System.Threading.Tasks;
 
 namespace Backend.Services
 {
@@ -14,35 +15,35 @@ namespace Backend.Services
             _context = context;
         }
 
-        public IEnumerable<User> GetAll()
-        {
-            return _context.Users.ToList();
-        }
-
-        public User GetById(int id)
-        {
-            return _context.Users.Find(id);
-        }
-
-        public void Add(User user)
+        public async Task CreateUserAsync(User user)
         {
             _context.Users.Add(user);
-            _context.SaveChanges();
+            await _context.SaveChangesAsync();
         }
 
-        public void Update(User user)
+        public async Task<User> GetUserByIdAsync(int id)
         {
-            _context.Users.Update(user);
-            _context.SaveChanges();
+            return await _context.Users.FirstOrDefaultAsync(u => u.Id == id);
         }
 
-        public void Delete(int id)
+        public async Task<List<User>> GetAllUsersAsync()
         {
-            var user = _context.Users.Find(id);
+            return await _context.Users.ToListAsync();
+        }
+
+        public async Task UpdateUserAsync(User user)
+        {
+            _context.Entry(user).State = EntityState.Modified;
+            await _context.SaveChangesAsync();
+        }
+
+        public async Task DeleteUserAsync(int id)
+        {
+            var user = await _context.Users.FindAsync(id);
             if (user != null)
             {
                 _context.Users.Remove(user);
-                _context.SaveChanges();
+                await _context.SaveChangesAsync();
             }
         }
     }

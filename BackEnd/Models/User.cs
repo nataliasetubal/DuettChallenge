@@ -22,6 +22,7 @@ namespace Backend.Models
         [StringLength(11)]
         public string CPF { get; set; }
 
+        
         public bool Admin { get; set; }
     }
 }

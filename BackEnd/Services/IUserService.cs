@@ -1,14 +1,15 @@
-﻿using Backend.Models;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
+using System.Threading.Tasks;
+using Backend.Models;
 
 namespace Backend.Services
 {
     public interface IUserService
     {
-        IEnumerable<User> GetAll();
-        User GetById(int id);
-        void Add(User user);
-        void Update(User user);
-        void Delete(int id);
+        Task CreateUserAsync(User user);
+        Task<User> GetUserByIdAsync(int id);
+        Task<List<User>> GetAllUsersAsync();
+        Task UpdateUserAsync(User user);
+        Task DeleteUserAsync(int id);
     }
 }

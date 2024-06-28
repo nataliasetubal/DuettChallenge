@@ -1,68 +1,87 @@
-﻿using Backend.Models;
-using Backend.Services;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
+using System;
 using System.Collections.Generic;
+using System.Threading.Tasks;
+using Backend.Models;
+using Backend.Services;
 
 namespace Backend.Controllers
 {
-    [Route("api/[controller]")]
     [ApiController]
-    public class UsersController : ControllerBase
+    [Route("api/[controller]")]
+    public class UserController : ControllerBase
     {
         private readonly IUserService _userService;
 
-        public UsersController(IUserService userService)
+        public UserController(IUserService userService)
         {
             _userService = userService;
         }
 
         [HttpGet]
-        public ActionResult<IEnumerable<User>> GetAll()
+        public async Task<ActionResult<List<User>>> GetAllUsers()
         {
-            return Ok(_userService.GetAll());
+            var users = await _userService.GetAllUsersAsync();
+            return users;
         }
 
         [HttpGet("{id}")]
-        public ActionResult<User> GetById(int id)
+        public async Task<ActionResult<User>> GetUserById(int id)
         {
-            var user = _userService.GetById(id);
+            var user = await _userService.GetUserByIdAsync(id);
             if (user == null)
             {
-                return NotFound();
+                return NotFound(); 
             }
-            return Ok(user);
+            return user;
         }
+       
 
         [HttpPost]
-        public ActionResult<User> Add(User user)
+        public async Task<ActionResult<User>> CreateUser(User user)
         {
-            _userService.Add(user);
-            return CreatedAtAction(nameof(GetById), new { id = user.Id }, user);
+            try
+            {
+                await _userService.CreateUserAsync(user);
+                return CreatedAtAction(nameof(GetUserById), new { id = user.Id }, user);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
         }
 
         [HttpPut("{id}")]
-        public IActionResult Update(int id, User user)
+        public async Task<ActionResult> UpdateUser(int id, User user)
         {
             if (id != user.Id)
             {
-                return BadRequest();
+                return BadRequest("IDs do usuário não coincidem");
             }
 
-            _userService.Update(user);
-            return NoContent();
+            try
+            {
+                await _userService.UpdateUserAsync(user);
+                return NoContent(); 
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
         }
 
         [HttpDelete("{id}")]
-        public IActionResult Delete(int id)
+        public async Task<ActionResult> DeleteUser(int id)
         {
-            var user = _userService.GetById(id);
-            if (user == null)
+            try
             {
-                return NotFound();
+                await _userService.DeleteUserAsync(id);
+                return NoContent(); 
             }
-
-            _userService.Delete(id);
-            return NoContent();
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
         }
     }
 }
