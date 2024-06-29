@@ -1,6 +1,6 @@
 ﻿using Backend.Data;
 using Backend.Models;
-using BackEnd.Models;
+using BackEnd.Dto;
 using BackEnd.Services.Interface;
 using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.EntityFrameworkCore;

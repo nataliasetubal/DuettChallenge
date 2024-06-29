@@ -33,7 +33,7 @@ namespace Backend.Controllers
             }
         }
 
-        [Authorize(Roles = "Admin")]
+        [Authorize]
         [HttpGet]
         public async Task<ActionResult<List<User>>> GetAllUsers()
         {
@@ -41,7 +41,7 @@ namespace Backend.Controllers
             return users;
         }
 
-        [Authorize(Roles = "Admin")]
+        [Authorize]
         [HttpGet("{id}")]
         public async Task<ActionResult<User>> GetUserById(int id)
         {
@@ -56,7 +56,7 @@ namespace Backend.Controllers
 
 
 
-        [Authorize(Roles = "Admin")]
+        [Authorize]
         [HttpPut("{id}")]
         public async Task<ActionResult> UpdateUser(int id, User user)
         {
