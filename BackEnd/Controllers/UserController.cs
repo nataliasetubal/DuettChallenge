@@ -19,14 +19,6 @@ namespace Backend.Controllers
             _userService = userService;
         }
 
-        //[Authorize(Roles = "Admin")]
-        [HttpGet]
-        public async Task<ActionResult<List<User>>> GetAllUsers()
-        {
-            var users = await _userService.GetAllUsersAsync();
-            return users;
-        }
-
         [HttpPost]
         public async Task<ActionResult<User>> CreateUser(User user)
         {
@@ -41,8 +33,15 @@ namespace Backend.Controllers
             }
         }
 
+        [Authorize(Roles = "Admin")]
+        [HttpGet]
+        public async Task<ActionResult<List<User>>> GetAllUsers()
+        {
+            var users = await _userService.GetAllUsersAsync();
+            return users;
+        }
 
-        [Authorize (Roles = "Admin")]
+        [Authorize(Roles = "Admin")]
         [HttpGet("{id}")]
         public async Task<ActionResult<User>> GetUserById(int id)
         {

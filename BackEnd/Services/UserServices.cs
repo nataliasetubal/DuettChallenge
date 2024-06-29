@@ -4,6 +4,7 @@ using Backend.Models;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using BackEnd.Services.Interface;
+using Microsoft.AspNetCore.Http.HttpResults;
 
 namespace Backend.Services
 {
@@ -18,19 +19,29 @@ namespace Backend.Services
 
         public async Task CreateUserAsync(User user)
         {
-            
             if (await _userRepository.Users.AnyAsync(u => u.Email == user.Email))
             {
                 throw new ArgumentException($"Email '{user.Email}' is already in use.");
             }
-            
+
             if (await _userRepository.Users.AnyAsync(u => u.CPF == user.CPF))
             {
                 throw new ArgumentException($"CPF '{user.CPF}' is already in use.");
             }
 
+            if (!string.IsNullOrEmpty(user.Role))
+            {
+                if (user.Role != "Admin" && user.Role != "User")
+                {
+                    throw new ArgumentException($"Invalid Role '{user.Role}'. Role must be 'Admin' or 'User'.");
+                }
+            }
+
             _userRepository.Users.Add(user);
             await _userRepository.SaveChangesAsync();
+            
+
+
         }
 
         public async Task<User> GetUserByIdAsync(int id)
