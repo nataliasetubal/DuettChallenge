@@ -3,7 +3,8 @@ using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using Backend.Models;
-using Backend.Services;
+using BackEnd.Services.Interface;
+using Microsoft.AspNetCore.Authorization;
 
 namespace Backend.Controllers
 {
@@ -18,24 +19,13 @@ namespace Backend.Controllers
             _userService = userService;
         }
 
+        //[Authorize(Roles = "Admin")]
         [HttpGet]
         public async Task<ActionResult<List<User>>> GetAllUsers()
         {
             var users = await _userService.GetAllUsersAsync();
             return users;
         }
-
-        [HttpGet("{id}")]
-        public async Task<ActionResult<User>> GetUserById(int id)
-        {
-            var user = await _userService.GetUserByIdAsync(id);
-            if (user == null)
-            {
-                return NotFound(); 
-            }
-            return user;
-        }
-       
 
         [HttpPost]
         public async Task<ActionResult<User>> CreateUser(User user)
@@ -51,6 +41,23 @@ namespace Backend.Controllers
             }
         }
 
+
+        [Authorize (Roles = "Admin")]
+        [HttpGet("{id}")]
+        public async Task<ActionResult<User>> GetUserById(int id)
+        {
+            var user = await _userService.GetUserByIdAsync(id);
+            if (user == null)
+            {
+                return NotFound();
+            }
+            return user;
+        }
+
+
+
+
+        [Authorize(Roles = "Admin")]
         [HttpPut("{id}")]
         public async Task<ActionResult> UpdateUser(int id, User user)
         {
@@ -62,7 +69,7 @@ namespace Backend.Controllers
             try
             {
                 await _userService.UpdateUserAsync(user);
-                return NoContent(); 
+                return NoContent();
             }
             catch (Exception ex)
             {
@@ -70,13 +77,14 @@ namespace Backend.Controllers
             }
         }
 
+        [Authorize(Roles = "Admin")]
         [HttpDelete("{id}")]
         public async Task<ActionResult> DeleteUser(int id)
         {
             try
             {
                 await _userService.DeleteUserAsync(id);
-                return NoContent(); 
+                return NoContent();
             }
             catch (Exception ex)
             {

@@ -16,15 +16,19 @@ namespace Backend.Models
         [RegularExpression(".+\\@.+\\..+", ErrorMessage = "Please provide a valid email...")]
         public string Email { get; set; }
 
-        [Required]
-        [StringLength(100)]
+        [Required(ErrorMessage = "The Password field is required.")]
+        [StringLength(100, ErrorMessage = "The {0} must be at least {2} and at most {1} characters long.", MinimumLength = 8)]
+        [RegularExpression(@"^(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?#&]{8,}$",
+        ErrorMessage = "The {0} must contain at least one uppercase letter, one digit, and one special character.")]
         public string Password { get; set; }
 
-        [Required]
-        [StringLength(11)]
+        [Required(ErrorMessage = "The CPF field is required.")]
+        [StringLength(11, MinimumLength = 11, ErrorMessage = "The CPF must be exactly 11 characters.")]
+        [RegularExpression(@"^\d{11}$", ErrorMessage = "The CPF must contain only numeric characters and must be exactly 11 digits.")]
         public string CPF { get; set; }
 
-        
-        public bool Admin { get; set; }
+
+
+        public string Role { get; set; }
     }
 }

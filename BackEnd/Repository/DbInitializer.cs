@@ -8,7 +8,7 @@ namespace Backend.Data
 {
     public static class DbInitializer
     {
-        public static void Initialize(UserContext context)
+        public static void Initialize(UserRepository context)
         {
             if (context.Users.Any())
             {
@@ -22,7 +22,7 @@ namespace Backend.Data
                 Email = "admin@example.com",
                 Password = "admin@123", 
                 CPF = "12345678900",
-                Admin = true
+                Role = "Admin"
             });
 
            
@@ -32,7 +32,7 @@ namespace Backend.Data
                 Email = "user1@example.com",
                 Password = "user1@123", 
                 CPF = "98765432100",
-                Admin = false
+                Role = "User"
             });
 
             context.SaveChanges();

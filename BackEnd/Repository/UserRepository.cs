@@ -3,9 +3,9 @@ using Backend.Models;
 
 namespace Backend.Data
 {
-    public class UserContext : DbContext
+    public class UserRepository : DbContext
     {
-        public UserContext(DbContextOptions<UserContext> options)
+        public UserRepository(DbContextOptions<UserRepository> options)
             : base(options)
         {
         }
