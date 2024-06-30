@@ -26,9 +26,6 @@ namespace Backend.Models
         [StringLength(11, MinimumLength = 11, ErrorMessage = "The CPF must be exactly 11 characters.")]
         [RegularExpression(@"^\d{11}$", ErrorMessage = "The CPF must contain only numeric characters and must be exactly 11 digits.")]
         public string CPF { get; set; }
-
-
-
         public string Role { get; set; }
     }
 }

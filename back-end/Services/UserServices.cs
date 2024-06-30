@@ -21,12 +21,12 @@ namespace Backend.Services
         {
             if (await _userRepository.Users.AnyAsync(u => u.Email == user.Email))
             {
-                throw new ArgumentException($"Email '{user.Email}' is already in use.");
+                throw new ArgumentException($"Email is already in use.");
             }
 
             if (await _userRepository.Users.AnyAsync(u => u.CPF == user.CPF))
             {
-                throw new ArgumentException($"CPF '{user.CPF}' is already in use.");
+                throw new ArgumentException($"CPF is already in use.");
             }
 
             if (!string.IsNullOrEmpty(user.Role))

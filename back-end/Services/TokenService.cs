@@ -53,8 +53,9 @@ namespace BackEnd.Services
             
 
             var token = new JwtSecurityTokenHandler().WriteToken(tokenOptions);
+            
 
-            return token;
+            return ("Bearer " + token);
         }
 
         
