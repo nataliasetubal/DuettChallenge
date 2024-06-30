@@ -29,12 +29,12 @@ namespace BackEnd.Services
             {
                 if ( login.Password != result.Password)
                 {
-                    throw new ArgumentException("Senha incorreta");
+                    throw new ArgumentException("Incorrect password");
                 }
             }
             else
             {
-                throw new ArgumentException("email n encontrado");
+                throw new ArgumentException("Email not found");
             }
 
             var secretyKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_configuration["Jwt:Key"] ?? string.Empty));

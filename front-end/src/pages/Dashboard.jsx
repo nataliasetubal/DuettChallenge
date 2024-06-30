@@ -13,6 +13,7 @@ const Dashboard = () => {
         </Typography>
         {user ? (
           <Box>
+            <Typography variant="h6">Hello World!!!</Typography>
             <Typography variant="h6">Welcome, {user.name}</Typography>
             <Typography>Email: {user.email}</Typography>
             <Button variant="contained" color="secondary" onClick={logout}>

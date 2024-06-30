@@ -42,7 +42,7 @@ namespace Backend.Controllers
         }
 
         [Authorize]
-        [HttpGet("{id}")]
+        [HttpGet("by-id/{id}")]
         public async Task<ActionResult<User>> GetUserById(int id)
         {
             var user = await _userService.GetUserByIdAsync(id);
@@ -53,7 +53,17 @@ namespace Backend.Controllers
             return user;
         }
 
-
+        [Authorize]
+        [HttpGet("by-email/{email}")]
+        public async Task<ActionResult<User>> GetUserByEmail(string email)
+        {
+            var user = await _userService.GetUserByEmailAsync(email);
+            if (user == null)
+            {
+                return NotFound();
+            }
+            return user;
+        }
 
 
         [Authorize]
