@@ -38,7 +38,7 @@ const LoginPage = () => {
       const responseUser = await Api.get(`/User/by-id/${id}`);
       login(responseUser.data);
       if (responseUser.data.role === "User") {
-        navigate("/dashboard");
+        navigate("/user");
       } else if (responseUser.data.role === "Admin") {
         navigate("/admin");
       }

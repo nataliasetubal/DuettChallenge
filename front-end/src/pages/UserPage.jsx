@@ -6,7 +6,7 @@ import Cookies from "js-cookie";
 import { useNavigate } from "react-router-dom";
 import Api from "../Services/Api";
 
-const Dashboard = () => {
+const UserPage = () => {
   const { user, logout } = useAuth();
  const [loading, setLoading] = useState(false);
  const { login } = useAuth();
@@ -28,7 +28,7 @@ const isLogged = async (id) => {
     const responseUser = await Api.get(`/User/by-id/${id}`);
     login(responseUser.data);
     if (responseUser.data.role === "User") {
-      navigate("/dashboard");
+      navigate("/user");
     } else if (responseUser.data.role === "Admin") {
       navigate("/admin");
     }
@@ -80,4 +80,4 @@ const returnToLogin = () => {
   );
 };
 
-export default Dashboard;
+export default UserPage;
