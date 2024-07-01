@@ -22,7 +22,7 @@ namespace BackEnd.Services
         }        
 
 
-        public async Task<string> GenerateToken(Login login)
+        public async Task<TokenData> GenerateToken(Login login)
         {
              var result =  await _userRepository.Users.FirstOrDefaultAsync(u => u.Email == login.Email);
             if (result != null)
@@ -53,9 +53,14 @@ namespace BackEnd.Services
             
 
             var token = new JwtSecurityTokenHandler().WriteToken(tokenOptions);
-            
 
-            return ("Bearer " + token);
+            var tokenData = new TokenData
+            {
+                Id = result.Id,
+                Token = "Bearer " + token,
+            };
+
+            return (tokenData);
         }
 
         

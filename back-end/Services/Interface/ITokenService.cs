@@ -5,6 +5,6 @@ namespace BackEnd.Services.Interface
 {
     public interface ITokenService
     {
-     Task<string> GenerateToken(Login login);
+     Task<TokenData> GenerateToken(Login login);
     }
 }

@@ -10,9 +10,11 @@ const Api = axios.create({
 
 // Interceptor para adicionar o token de autenticação
 Api.interceptors.request.use(config => {
-  const token = Cookies.get('token');
-  if (token) {
-    config.headers['Authorization'] = token;
+  const tokenCookies = Cookies.get('token');
+  
+  if (tokenCookies) {
+    const tokenData = JSON.parse(tokenCookies);
+    config.headers['Authorization'] = tokenData.token;
   }
   return config;
 }, error => {

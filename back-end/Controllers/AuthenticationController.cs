@@ -3,6 +3,7 @@ using BackEnd.Dto;
 using BackEnd.Services;
 using BackEnd.Services.Interface;
 using Microsoft.AspNetCore.Mvc;
+using Newtonsoft.Json.Linq;
 
 namespace BackEnd.Controllers
 {
@@ -18,17 +19,17 @@ namespace BackEnd.Controllers
         }
 
         [HttpPost]
-        public async Task<ActionResult<string>> Login(Login login)
+        public async Task<ActionResult<TokenData>> Login(Login login)
         {
             try
             {
-                var token = await _tokenService.GenerateToken(login);
+                var tokenData = await _tokenService.GenerateToken(login);
 
-                if (token == "")
+                if (tokenData.Token == "")
                 {
                     return Unauthorized();
                 }
-                return Ok(token);
+                return Ok(tokenData);
             }
             catch (Exception ex)
             {
