@@ -1,10 +1,7 @@
-﻿using Microsoft.EntityFrameworkCore;
-using Backend.Data;
+﻿using Backend.Data;
 using Backend.Models;
-using System.Collections.Generic;
-using System.Threading.Tasks;
 using BackEnd.Services.Interface;
-using Microsoft.AspNetCore.Http.HttpResults;
+
 
 namespace Backend.Services
 {
@@ -19,14 +16,14 @@ namespace Backend.Services
 
         public async Task CreateUserAsync(User user)
         {
-            if (await _userRepository.Users.AnyAsync(u => u.Email == user.Email))
+            if (await _userRepository.EmailExistsAsync(user.Email))
             {
-                throw new ArgumentException($"Email is already in use.");
+                throw new ArgumentException("Email is already in use.");
             }
 
-            if (await _userRepository.Users.AnyAsync(u => u.CPF == user.CPF))
+            if (await _userRepository.CPFExistsAsync(user.CPF))
             {
-                throw new ArgumentException($"CPF is already in use.");
+                throw new ArgumentException("CPF is already in use.");
             }
 
             if (!string.IsNullOrEmpty(user.Role))
@@ -37,42 +34,32 @@ namespace Backend.Services
                 }
             }
 
-            _userRepository.Users.Add(user);
-            await _userRepository.SaveChangesAsync();
-            
-
-
+            await _userRepository.AddUserAsync(user);
         }
 
         public async Task<User> GetUserByIdAsync(int id)
         {
-            return await _userRepository.Users.FirstOrDefaultAsync(u => u.Id == id);
+            return await _userRepository.GetUserByIdAsync(id);
         }
 
         public async Task<User> GetUserByEmailAsync(string email)
         {
-            return await _userRepository.Users.FirstOrDefaultAsync(u => u.Email == email);
+            return await _userRepository.GetUserByEmailAsync(email);
         }
 
         public async Task<List<User>> GetAllUsersAsync()
         {
-            return await _userRepository.Users.ToListAsync();
+            return await _userRepository.GetAllUsersAsync();
         }
 
         public async Task UpdateUserAsync(User user)
         {
-            _userRepository.Entry(user).State = EntityState.Modified;
-            await _userRepository.SaveChangesAsync();
+            await _userRepository.UpdateUserAsync(user);
         }
 
         public async Task DeleteUserAsync(int id)
         {
-            var user = await _userRepository.Users.FindAsync(id);
-            if (user != null)
-            {
-                _userRepository.Users.Remove(user);
-                await _userRepository.SaveChangesAsync();
-            }
+            await _userRepository.DeleteUserAsync(id);
         }
     }
 }
