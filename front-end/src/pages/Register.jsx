@@ -103,6 +103,7 @@ const Register = () => {
       console.log(result);
       setOpenSnackbar(true);
       setSnackbarMessage("User registered successfully");
+      navigate("/login")
     } catch (error) {
       console.log("Error:", error?.response?.data);
       setOpenSnackbar(true);

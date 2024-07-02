@@ -78,7 +78,7 @@ namespace Backend.Controllers
             try
             {
                 await _userService.UpdateUserAsync(user);
-                return NoContent();
+                return Ok();
             }
             catch (Exception ex)
             {
