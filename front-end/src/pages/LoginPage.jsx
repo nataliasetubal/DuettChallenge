@@ -12,7 +12,7 @@ import {
 import Api from "../Services/Api";
 import Cookies from "js-cookie";
 import LoadingSpinner from "../components/LoadingSpinner";
-import { useAuth } from "../context/AuthContext";
+import { useUsersContext } from "../context/UsersContext";
 
 const LoginPage = () => {
   const [email, setEmail] = useState("");
@@ -20,7 +20,7 @@ const LoginPage = () => {
   const [error, setError] = useState("");
   const navigate = useNavigate();
   const [loading, setLoading] = useState(false);
-  const { login } = useAuth();
+  const { updatedUser  } = useUsersContext();
 
   const checkLogged = async () => {
     setLoading(true);
@@ -34,12 +34,13 @@ const LoginPage = () => {
   };
 
   const isLogged = async (id) => {
+    setLoading(true);
     try {
-      const responseUser = await Api.get(`/User/by-id/${id}`);
-      login(responseUser.data);
+      const responseUser = await Api.get(`/User/byId/${id}`);      
       if (responseUser.data.role === "User") {
+        updatedUser(responseUser.data);
         navigate("/user");
-      } else if (responseUser.data.role === "Admin") {
+      } else if (responseUser.data.role === "Admin") {       
         navigate("/admin");
       }
     } catch (error) {

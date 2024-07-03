@@ -1,35 +1,36 @@
 import React, { useEffect, useState } from 'react';
-import { useAuth } from '../context/AuthContext';
+import { useUsersContext } from "../context/UsersContext";
 import { Container, Typography, Box, Button } from '@mui/material';
 import LoadingSpinner from '../components/LoadingSpinner';
 import Cookies from "js-cookie";
 import { useNavigate } from "react-router-dom";
 import Api from "../Services/Api";
 
-const UserPage = () => {
-  const { user, logout } = useAuth();
- const [loading, setLoading] = useState(false);
- const { login } = useAuth();
+const UserPage = () => {  
+ const [loading, setLoading] = useState(true); 
  const navigate = useNavigate();
+ const { user, updatedUser  } = useUsersContext();
+ 
 
  const checkLogged = async () => {
   setLoading(true);
   const tokenCookies = Cookies.get("token");    
-  if (tokenCookies) {
+  if (tokenCookies) {   
     const tokenData = JSON.parse(tokenCookies);
     isLogged(tokenData.id);
   } else {
     setLoading(false);
+    // navigate("/login");
   }
 };
 
 const isLogged = async (id) => {
+  setLoading(true);
   try {
-    const responseUser = await Api.get(`/User/by-id/${id}`);
-    login(responseUser.data);
+    const responseUser = await Api.get(`/User/byId/${id}`);
     if (responseUser.data.role === "User") {
-      navigate("/user");
-    } else if (responseUser.data.role === "Admin") {
+      updatedUser(responseUser.data);     
+    } else if (responseUser.data.role === "Admin") {      
       navigate("/admin");
     }
   } catch (error) {
@@ -40,6 +41,11 @@ const isLogged = async (id) => {
 };
 
 const returnToLogin = () => {
+  navigate("/login")
+}
+
+const logout = () => {
+  Cookies.remove("token")
   navigate("/login")
 }
 

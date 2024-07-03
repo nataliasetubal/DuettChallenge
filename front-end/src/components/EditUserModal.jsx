@@ -19,7 +19,7 @@ import Api from "../Services/Api";
 import { useUsersContext } from "../context/UsersContext";
 
 const EditUserModal = ({ open, handleClose }) => {
-  const { users, editingUser, setEditingUser } = useUsersContext();
+  const { editingUser } = useUsersContext();
   const [id, setId] = useState("");
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");

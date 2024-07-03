@@ -11,7 +11,7 @@ import {
   IconButton,
   InputAdornment
 } from "@mui/material";
-import { Visibility, VisibilityOff } from "@mui/icons-material";
+import { ArrowBack, Visibility, VisibilityOff } from "@mui/icons-material";
 import InputMask from "react-input-mask";
 import Api from "../Services/Api";
 
@@ -107,7 +107,7 @@ const Register = () => {
     } catch (error) {
       console.log("Error:", error?.response?.data);
       setOpenSnackbar(true);
-      if (error.response.data?.errors) {
+      if (error?.response?.data?.errors) {
         return setSnackbarMessage("Failed to register User"); 
       }
       return  setSnackbarMessage("Failed to register User " + error.response.data);       
@@ -126,9 +126,9 @@ const Register = () => {
         <Typography variant="h4" component="h1" gutterBottom>
           Register
         </Typography>
-        <Button variant="outlined" onClick={() => navigate("/login")}>
-          Back to Login
-        </Button>
+        <IconButton onClick={() => navigate(-1)} aria-label="back">
+          <ArrowBack />
+        </IconButton>
         <form onSubmit={handleSubmit}>
           <TextField
             fullWidth
