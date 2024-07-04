@@ -1,15 +1,15 @@
 using Microsoft.EntityFrameworkCore;
 using Backend.Data;
 using Backend.Services;
-using BackEnd.Services.Interface;
-using BackEnd.Services;
 using Microsoft.OpenApi.Models;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
+using System;
 using System.Text;
+using BackEnd.Services.Interface;
+using BackEnd.Services;
 
 var builder = WebApplication.CreateBuilder(args);
-
 
 builder.Services.AddCors(options =>
 {
@@ -21,6 +21,7 @@ builder.Services.AddCors(options =>
                    .AllowAnyHeader();
         });
 });
+
 builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen(options =>
@@ -67,23 +68,23 @@ builder.Services.AddAuthentication(x =>
     {
         options.TokenValidationParameters = new TokenValidationParameters
         {
-
             ValidateIssuer = false, // Não valida o emissor
             ValidateAudience = false, // Não valida a audiência
             ValidateLifetime = true,
             ValidateIssuerSigningKey = true,
             IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(builder.Configuration["Jwt:Key"])),
             ClockSkew = TimeSpan.Zero
-
         };
     });
+
+// Configuração do DbContext para PostgreSQL
 builder.Services.AddDbContext<UserRepository>(options =>
-    options.UseInMemoryDatabase("UserList"));
+    options.UseNpgsql(builder.Configuration.GetConnectionString("DefaultConnection")));
+
 builder.Services.AddScoped<IUserService, UserService>();
 builder.Services.AddScoped<ITokenService, TokenService>();
 
 var app = builder.Build();
-
 
 if (app.Environment.IsDevelopment())
 {
@@ -94,7 +95,6 @@ if (app.Environment.IsDevelopment())
         c.SwaggerEndpoint("/swagger/v1/swagger.json", "Backend API v1");
         c.RoutePrefix = "swagger";
     });
-
 
     using (var scope = app.Services.CreateScope())
     {

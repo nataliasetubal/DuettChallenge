@@ -11,7 +11,19 @@ namespace Backend.Data
         {
         }
 
-        public DbSet<User> Users { get; set; }
+        public DbSet<User> Users { get; set; }       
+
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        {
+            modelBuilder.Entity<User>().ToTable("Users");            
+
+            base.OnModelCreating(modelBuilder);
+        }
+
+        public void EnsureDatabaseCreated()
+        {
+            Database.EnsureCreated();
+        }
 
         public async Task<bool> EmailExistsAsync(string email)
         {

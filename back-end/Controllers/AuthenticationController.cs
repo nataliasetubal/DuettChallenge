@@ -3,7 +3,6 @@ using BackEnd.Dto;
 using BackEnd.Services;
 using BackEnd.Services.Interface;
 using Microsoft.AspNetCore.Mvc;
-using Newtonsoft.Json.Linq;
 
 namespace BackEnd.Controllers
 {
