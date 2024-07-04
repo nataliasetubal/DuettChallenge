@@ -100,7 +100,7 @@ if (app.Environment.IsDevelopment())
     {
         var services = scope.ServiceProvider;
         var context = services.GetRequiredService<UserRepository>();
-        DbInitializer.Initialize(context);
+        //DbInitializer.Initialize(context);
     }
 }
 else
