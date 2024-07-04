@@ -9,11 +9,12 @@ import {
   MenuItem,
   Snackbar,
   IconButton,
-  InputAdornment
+  InputAdornment,
 } from "@mui/material";
 import { ArrowBack, Visibility, VisibilityOff } from "@mui/icons-material";
 import InputMask from "react-input-mask";
 import Api from "../Services/Api";
+import backgroundImage from "../assets/images/home-banner-background.png";
 
 const Register = () => {
   const [name, setName] = useState("");
@@ -41,7 +42,7 @@ const Register = () => {
       Name: name,
       Email: email,
       Password: password,
-      CPF: cpf.replace(/\D/g, ''), 
+      CPF: cpf.replace(/\D/g, ""),
       Role: role,
     };
     saveUserApi(userData);
@@ -103,16 +104,16 @@ const Register = () => {
       console.log(result);
       setOpenSnackbar(true);
       setSnackbarMessage("User registered successfully");
-      navigate("/login")
+      navigate("/login");
     } catch (error) {
       console.log("Error:", error?.response?.data);
       setOpenSnackbar(true);
       if (error?.response?.data?.errors) {
-        return setSnackbarMessage("Failed to register User"); 
+        return setSnackbarMessage("Failed to register User");
       }
-      return  setSnackbarMessage("Failed to register User " + error.response.data);       
-      
-      
+      return setSnackbarMessage(
+        "Failed to register User " + error.response.data
+      );
     }
   };
 
@@ -121,8 +122,32 @@ const Register = () => {
   };
 
   return (
-    <Container maxWidth="sm">
-      <Box sx={{ mt: 8 }}>
+    <Container
+      maxWidth="full"
+      sx={{
+        backgroundImage: `url(${backgroundImage})`,
+        backgroundRepeat: "no-repeat",
+        backgroundSize: "cover",
+        backgroundColor: "#4146ff",
+        minHeight: "100vh",
+        display: "flex",
+        justifyContent: "center",
+        alignItems: "center",
+        padding: "157px 15px 181px",
+        position: "relative",
+        overflow: "hidden",
+      }}
+    >
+      <Box
+        sx={{
+          backgroundColor: "rgba(255, 255, 255, 0.8)",
+          padding: 4,
+          borderRadius: 2,
+          boxShadow: 3,
+          width: "100%",
+          maxWidth: "500px",
+        }}
+      >
         <Typography variant="h4" component="h1" gutterBottom>
           Register
         </Typography>
@@ -176,14 +201,7 @@ const Register = () => {
             value={cpf}
             onChange={(e) => setCpf(e.target.value)}
           >
-            {() => (
-              <TextField
-                fullWidth
-                label="CPF"
-                margin="normal"
-                required
-              />
-            )}
+            {() => <TextField fullWidth label="CPF" margin="normal" required />}
           </InputMask>
           <TextField
             select
@@ -207,7 +225,7 @@ const Register = () => {
         autoHideDuration={6000}
         onClose={handleSnackbarClose}
         message={snackbarMessage}
-        anchorOrigin={{ vertical: 'top', horizontal: 'right' }}
+        anchorOrigin={{ vertical: "top", horizontal: "right" }}
       />
     </Container>
   );

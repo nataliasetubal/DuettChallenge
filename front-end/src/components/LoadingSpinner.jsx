@@ -1,6 +1,6 @@
-import React from 'react';
-import CircularProgress from '@mui/material/CircularProgress';
-import Box from '@mui/material/Box';
+import React from "react";
+import CircularProgress from "@mui/material/CircularProgress";
+import Box from "@mui/material/Box";
 
 const LoadingSpinner = () => {
   return (
@@ -8,9 +8,9 @@ const LoadingSpinner = () => {
       display="flex"
       justifyContent="center"
       alignItems="center"
-      height="100vh" 
+      bgcolor="#4146ff"
     >
-      <CircularProgress />
+      <CircularProgress color="secondary" />
     </Box>
   );
 };

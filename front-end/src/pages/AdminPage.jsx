@@ -21,6 +21,7 @@ import EditUserModal from "../components/EditUserModal";
 import { useUsersContext } from "../context/UsersContext";
 import Cookies from "js-cookie";
 import { useNavigate } from "react-router-dom";
+import backgroundImage from "../assets/images/home-banner-background.png";
 
 const AdminPage = () => {
   const { users, updateUserList, updateUserBeingEdited } = useUsersContext();
@@ -62,6 +63,7 @@ const AdminPage = () => {
     setOpen(false);
     getUsersApi();
   };
+
   const returnToLogin = () => {
     navigate("/login");
   };
@@ -79,14 +81,30 @@ const AdminPage = () => {
   return loading ? (
     <LoadingSpinner />
   ) : (
-    <Container>
+    <Container
+      maxWidth="full"
+      sx={{
+        backgroundImage: `url(${backgroundImage})`,
+        backgroundRepeat: "no-repeat",
+        backgroundSize: "cover",
+        backgroundColor: "#4146ff",
+        minHeight: "100vh",
+        display: "flex",
+        justifyContent: "center",
+        alignItems: "center",
+        padding: "157px 15px 181px",
+        position: "relative",
+        overflow: "hidden",
+      }}
+    >
       {users ? (
-        <Paper>
-          <Box>
+        <Paper
+          sx={{ p: 2, width: "60vw", maxHeight: "75vh", overflow: "auto" }}
+        >
+          <Box sx={{ display: "flex", justifyContent: "space-between", mb: 2 }}>
             <Button
               variant="outlined"
               color="secondary"
-              fullWidth
               onClick={() => navigate("/register")}
             >
               Register
@@ -96,7 +114,7 @@ const AdminPage = () => {
             </Button>
           </Box>
           <TableContainer>
-            <Table>
+            <Table stickyHeader>
               <TableHead>
                 <TableRow>
                   <TableCell>ID</TableCell>
@@ -136,14 +154,28 @@ const AdminPage = () => {
           </TableContainer>
         </Paper>
       ) : (
-        <Box>
-          <Typography>You are not logged in.</Typography>
-          <Button variant="contained" color="secondary" onClick={returnToLogin}>
+        <Box
+          sx={{
+            textAlign: "center",
+            color: "white",
+            backgroundColor: "rgba(0, 0, 0, 0.5)",
+            borderRadius: 2,
+            p: 3,
+          }}
+        >
+          <Typography variant="h5" sx={{ mb: 2 }}>
+            You are not logged in.
+          </Typography>
+          <Button
+            variant="contained"
+            color="secondary"
+            onClick={returnToLogin}
+            sx={{ mt: 2 }}
+          >
             Return to Login
           </Button>
         </Box>
       )}
-      {/* Modal de Edição */}
       <EditUserModal open={open} handleClose={handleCloseEditModal} />
     </Container>
   );

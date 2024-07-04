@@ -8,10 +8,9 @@ const Api = axios.create({
   },
 });
 
-// Interceptor para adicionar o token de autenticação
 Api.interceptors.request.use(config => {
   const tokenCookies = Cookies.get('token');
-  
+
   if (tokenCookies) {
     const tokenData = JSON.parse(tokenCookies);
     config.headers['Authorization'] = tokenData.token;
@@ -24,7 +23,7 @@ Api.interceptors.request.use(config => {
 Api.interceptors.response.use(response => {
   return response;
 }, error => {
-  if (error.response && error.response.status === 401) {  
+  if (error.response && error.response.status === 401) {
     window.location.href = '/login';
   }
   return Promise.reject(error);
