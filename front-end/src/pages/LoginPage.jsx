@@ -1,4 +1,5 @@
-import React, { useState, useEffect } from "react";
+// LoginPage.js
+import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import {
   TextField,
@@ -9,79 +10,39 @@ import {
   Stack,
   Alert,
 } from "@mui/material";
-import Api from "../Services/Api";
-import Cookies from "js-cookie";
+import { useAuth } from "../context/AuthContext";
 import LoadingSpinner from "../components/LoadingSpinner";
-import { useUsersContext } from "../context/UsersContext";
 
 const LoginPage = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
+  const { login, loading, userLogged } = useAuth(); // Adicionando user ao desestruturar o useAuth
   const navigate = useNavigate();
-  const [loading, setLoading] = useState(false);
-  const { updatedUser  } = useUsersContext();
 
-  const checkLogged = async () => {
-    setLoading(true);
-    const tokenCookies = Cookies.get("token");    
-    if (tokenCookies) {
-      const tokenData = JSON.parse(tokenCookies);
-      isLogged(tokenData.id);
-    } else {
-      setLoading(false);
-    }
-  };
-
-  const isLogged = async (id) => {
-    setLoading(true);
-    try {
-      const responseUser = await Api.get(`/User/byId/${id}`);      
-      if (responseUser.data.role === "User") {
-        updatedUser(responseUser.data);
-        navigate("/user");
-      } else if (responseUser.data.role === "Admin") {       
-        navigate("/admin");
-      }
-    } catch (error) {
-      console.log("Failed to check user login status", error);
-    } finally {
-      setLoading(false);
-    }
-  };
-
-  const loginApi = async () => {
-    const data = {
-      Email: email,
-      Password: password,
-    };
-    try {
-      setLoading(true);
-      const responseToken = await Api.post("/Authentication", data);
-      const token = responseToken.data;
-      const expiresIn = 1 / 3;
-      Cookies.set("token", JSON.stringify(token), { expires: expiresIn });
-      isLogged(responseToken.data.id);
-    } catch (error) {
-      console.log(error);
-      setError(
-        error?.response?.data + " Login failed. Please check your credentials."
-      );
-      setLoading(false);
-    }
-  };
-
-  const handleSubmit = (event) => {
+  const handleSubmit = async (event) => {
     event.preventDefault();
     setError("");
-    loginApi();
+
+    try {
+      await login(email, password);
+      // Redireciona com base no papel (role) do usuário
+      //  navigate(userLogged.role === 'Admin' ? '/admin' : '/user');
+    } catch (error) {
+      setError(error.message || "Login failed. Please check your credentials.");
+    }
+  };
+
+  const isLogged = () => {
+    if (userLogged) {
+      navigate(userLogged.role === "Admin" ? "/admin" : "/user");
+    }
   };
 
   useEffect(() => {
-    checkLogged();
-
+    isLogged();
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  }, [userLogged]);
 
   return loading ? (
     <LoadingSpinner />

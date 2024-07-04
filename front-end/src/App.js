@@ -5,24 +5,26 @@ import Register from './pages/Register';
 import LoginPage from './pages/LoginPage';
 import UserPage from './pages/UserPage';
 import AdminPage from './pages/AdminPage';
+import { AuthProvider } from './context/AuthContext';
 
 
 
 const App = () => {
   return (
-    
-      <UsersProvider>
-      <Router>
-        <Routes>
-          <Route path="/login" element={<LoginPage />} />
-          <Route path="/user" element={<UserPage />} />
-          <Route path="/admin" element={<AdminPage />} />
-          <Route path="/register" element={<Register />} />
-          <Route path="*" element={<Navigate to="/login" replace />} />
-        </Routes>
-      </Router>
-      </UsersProvider>
-    
+    <Router>
+      <AuthProvider>
+        <UsersProvider>
+          <Routes>
+            <Route path="/login" element={<LoginPage />} />
+            <Route path="/user" element={<UserPage />} />
+            <Route path="/admin" element={<AdminPage />} />
+            <Route path="/register" element={<Register />} />
+            <Route path="*" element={<Navigate to="/login" replace />} />
+          </Routes>
+        </UsersProvider>
+      </AuthProvider>
+    </Router>
+
   );
 };
 

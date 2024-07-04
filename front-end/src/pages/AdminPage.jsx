@@ -28,34 +28,14 @@ const AdminPage = () => {
   const [open, setOpen] = useState(false);
   const navigate = useNavigate();
 
-  const checkLogged = () => {
+  const getUsersApi = async () => {
     setLoading(true);
-    const tokenCookies = Cookies.get("token");
-    if (tokenCookies) {
-      const tokenData = JSON.parse(tokenCookies);
-      isLogged(tokenData.id);
-    } else {
-      setLoading(false);
-    }
-  };
-  const isLogged = async (id) => {
     try {
-      setLoading(true);
-      const responseUser = await Api.get(`/User/byId/${id}`);
-      if (responseUser.data.role === "User") {
-        navigate("/user");
+      const tokenCookies = Cookies.get("token");
+      if (tokenCookies) {
+        const response = await Api.get("/User");
+        updateUserList(response.data);
       }
-      getUserApi();
-    } catch (error) {
-      console.log("Failed to check user login status", error);
-    }
-  };
-
-  const getUserApi = async () => {
-    setLoading(true);
-    try {
-      const response = await Api.get("/User");
-      updateUserList(response.data);
     } catch (error) {
       console.log("Error fetching users:", error);
     } finally {
@@ -80,19 +60,19 @@ const AdminPage = () => {
   const handleCloseEditModal = () => {
     updateUserBeingEdited(null);
     setOpen(false);
-    getUserApi();
+    getUsersApi();
   };
   const returnToLogin = () => {
     navigate("/login");
   };
 
   const logout = () => {
-    Cookies.remove("token")
-    navigate("/login")
-  }
+    Cookies.remove("token");
+    navigate("/login");
+  };
 
   useEffect(() => {
-    checkLogged();
+    getUsersApi();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
