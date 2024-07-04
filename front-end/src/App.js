@@ -6,6 +6,7 @@ import LoginPage from './pages/LoginPage';
 import UserPage from './pages/UserPage';
 import AdminPage from './pages/AdminPage';
 import { AuthProvider } from './context/AuthContext';
+import { SnackbarProvider } from 'notistack';
 
 
 
@@ -14,6 +15,7 @@ const App = () => {
     <Router>
       <AuthProvider>
         <UsersProvider>
+          <SnackbarProvider maxSnack={5}>
           <Routes>
             <Route path="/login" element={<LoginPage />} />
             <Route path="/user" element={<UserPage />} />
@@ -21,6 +23,7 @@ const App = () => {
             <Route path="/register" element={<Register />} />
             <Route path="*" element={<Navigate to="/login" replace />} />
           </Routes>
+          </SnackbarProvider>
         </UsersProvider>
       </AuthProvider>
     </Router>

@@ -14,19 +14,20 @@ import {
   TableContainer,
 } from "@mui/material";
 import DeleteIcon from "@mui/icons-material/Delete";
-import EditIcon from "@mui/icons-material/Edit";
 import Api from "../Services/Api";
 import LoadingSpinner from "../components/LoadingSpinner";
-import EditUserModal from "../components/EditUserModal";
+import ChangePasswordModal from "../components/ChangePasswordModal"; // Importe a modal de alteração de senha
 import { useUsersContext } from "../context/UsersContext";
 import Cookies from "js-cookie";
 import { useNavigate } from "react-router-dom";
 import backgroundImage from "../assets/images/home-banner-background.png";
+import { useAuth } from "../context/AuthContext";
 
 const AdminPage = () => {
-  const { users, updateUserList, updateUserBeingEdited } = useUsersContext();
+  const { users, updateUserList } = useUsersContext();
   const [loading, setLoading] = useState(true);
-  const [open, setOpen] = useState(false);
+  const [openChangePasswordModal, setOpenChangePasswordModal] = useState(false);
+  const { logout } = useAuth();
   const navigate = useNavigate();
 
   const getUsersApi = async () => {
@@ -53,23 +54,22 @@ const AdminPage = () => {
     }
   };
 
-  const handleEdit = (user) => {
-    updateUserBeingEdited(user);
-    setOpen(true);
+  const handleChangePassword = () => {
+    setOpenChangePasswordModal(true); 
   };
 
-  const handleCloseEditModal = () => {
-    updateUserBeingEdited(null);
-    setOpen(false);
-    getUsersApi();
+  const handleCloseChangePasswordModal = () => {
+    setOpenChangePasswordModal(false); 
+    getUsersApi(); 
   };
 
   const returnToLogin = () => {
     navigate("/login");
   };
 
-  const logout = () => {
+  const logoutButton = () => {
     Cookies.remove("token");
+    logout();
     navigate("/login");
   };
 
@@ -109,8 +109,15 @@ const AdminPage = () => {
             >
               Register
             </Button>
-            <Button variant="contained" color="secondary" onClick={logout}>
+            <Button variant="contained" color="secondary" onClick={logoutButton}>
               Logout
+            </Button>
+            <Button
+              variant="contained"
+              color="secondary"
+              onClick={handleChangePassword} // Chamar função para abrir a modal de alteração de senha
+            >
+              Change Password
             </Button>
           </Box>
           <TableContainer>
@@ -139,12 +146,6 @@ const AdminPage = () => {
                         onClick={() => handleDelete(user.id)}
                       >
                         <DeleteIcon />
-                      </IconButton>
-                      <IconButton
-                        color="primary"
-                        onClick={() => handleEdit(user)}
-                      >
-                        <EditIcon />
                       </IconButton>
                     </TableCell>
                   </TableRow>
@@ -176,7 +177,11 @@ const AdminPage = () => {
           </Button>
         </Box>
       )}
-      <EditUserModal open={open} handleClose={handleCloseEditModal} />
+      {/* Renderizar a modal de alteração de senha */}
+      <ChangePasswordModal
+        open={openChangePasswordModal}
+        handleClose={handleCloseChangePasswordModal}
+      />
     </Container>
   );
 };

@@ -4,11 +4,15 @@ import LoadingSpinner from "../components/LoadingSpinner";
 import Cookies from "js-cookie";
 import { useNavigate } from "react-router-dom";
 import Api from "../Services/Api";
-import backgroundImage from "../assets/images/home-banner-background.png"; // Importe a imagem
+import backgroundImage from "../assets/images/home-banner-background.png";
+import { useAuth } from "../context/AuthContext";
+import ChangePasswordModal from "../components/ChangePasswordModal";
 
 const UserPage = () => {
   const [loading, setLoading] = useState(true);
   const [user, setUser] = useState();
+  const { logout } = useAuth();
+  const [openChangePasswordModal, setOpenChangePasswordModal] = useState(false);
   const navigate = useNavigate();
 
   const getUserApi = async () => {
@@ -33,9 +37,19 @@ const UserPage = () => {
     navigate("/login");
   };
 
-  const logout = () => {
+  const logoutButton = () => {
     Cookies.remove("token");
+    logout();
     navigate("/login");
+  };
+
+  const handleChangePassword = () => {
+    setOpenChangePasswordModal(true);
+  };
+
+  const handleCloseChangePasswordModal = () => {
+    setOpenChangePasswordModal(false);
+    getUserApi();
   };
 
   useEffect(() => {
@@ -94,8 +108,19 @@ const UserPage = () => {
               </Typography>
               <Typography>Email: {user.email}</Typography>
               <Stack spacing={2} sx={{ mt: 2 }}>
-                <Button variant="contained" color="secondary" onClick={logout}>
+                <Button
+                  variant="contained"
+                  color="secondary"
+                  onClick={logoutButton}
+                >
                   Logout
+                </Button>
+                <Button
+                  variant="contained"
+                  color="secondary"
+                  onClick={handleChangePassword} // Chamar função para abrir a modal de alteração de senha
+                >
+                  Change Password
                 </Button>
               </Stack>
             </Box>
@@ -114,6 +139,11 @@ const UserPage = () => {
           )}
         </Box>
       )}
+      {/* Renderizar a modal de alteração de senha */}
+      <ChangePasswordModal
+        open={openChangePasswordModal}
+        handleClose={handleCloseChangePasswordModal}
+      />
     </Container>
   );
 };

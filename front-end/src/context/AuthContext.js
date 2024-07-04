@@ -56,13 +56,17 @@ export const AuthProvider = ({ children }) => {
         setUserLogged(null);
     };
 
+    const updateUserLogged = (user) => {
+        setUserLogged(user)
+    }
+
     useEffect(() => {
         checkToken();
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
 
     return (
-        <AuthContext.Provider value={{ userLogged, loading, login, logout, setLoading }}>
+        <AuthContext.Provider value={{ userLogged, loading, login, logout, setLoading, updateUserLogged }}>
             {children}
         </AuthContext.Provider>
     );
