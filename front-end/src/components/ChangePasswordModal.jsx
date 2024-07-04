@@ -77,18 +77,17 @@ const ChangePasswordModal = ({ open, handleClose }) => {
   const handleSave = async () => {
     setLoading(true);
     checkPassword();
-
     if (
       error.oldPassword === false &&
       error.newPassword === false &&
       error.confirmPassword === false
     ) {
       try {
-        userLogged.password = newPassword;       
+        userLogged.password = newPassword;
         await Api.put(`/User/${userLogged.id}`, userLogged);
         enqueueSnackbar("Password updated successfully!", {
           variant: "success",
-        });        
+        });
         updateUserLogged(userLogged);
         handleClose();
       } catch (error) {
@@ -97,6 +96,8 @@ const ChangePasswordModal = ({ open, handleClose }) => {
       } finally {
         setLoading(false);
       }
+    } else {
+      setLoading(false);
     }
   };
 

@@ -140,7 +140,7 @@ const LoginPage = () => {
                 type="submit"
                 fullWidth
                 variant="contained"
-                sx={{ bgcolor: "#06ecb7", color: "#ffffff" }}
+                sx={{ bgcolor: "#06ecb7", color: "#242322" }}
               >
                 Sign In
               </Button>
