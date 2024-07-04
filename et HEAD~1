@@ -1,0 +1,67 @@
+[33mcommit 65f2a4fbb104ef4c2d8a751ffc87d54d586896c1[m[33m ([m[1;36mHEAD -> [m[1;32mdev[m[33m)[m
+Author: Lucas Silvestre <lucas.silvestre.dev@hotmail.com>
+Date:   Sun Jun 30 00:34:20 2024 -0300
+
+    Revert "adicionado front com tela de cadastro inicial"
+    
+    This reverts commit b9a2c482ad691b08d90f1baef56c8ed7ae32bdc5.
+
+[33mcommit b9a2c482ad691b08d90f1baef56c8ed7ae32bdc5[m
+Author: Lucas Silvestre <lucas.silvestre@esgland.com.br>
+Date:   Sun Jun 30 00:26:53 2024 -0300
+
+    adicionado front com tela de cadastro inicial
+
+[33mcommit 8d33b7e6e6815e613fea670b95a70286b57301d4[m
+Author: Lucas Silvestre <lucas.silvestre@esgland.com.br>
+Date:   Sat Jun 29 16:45:26 2024 -0300
+
+    ajuste de autorização e login alterado para dto
+
+[33mcommit df197853b40a717f408c366c3dcf4f5b1c991a24[m[33m ([m[1;31morigin/dev[m[33m)[m
+Author: Lucas Silvestre <lucas.silvestre@esgland.com.br>
+Date:   Sat Jun 29 03:36:15 2024 -0300
+
+    :D
+
+[33mcommit 9d4de4349e1bb1459d79f10e4ba68c5bca7870ed[m
+Author: Lucas Silvestre <lucas.silvestre@esgland.com.br>
+Date:   Sat Jun 29 03:35:00 2024 -0300
+
+    Description Authorizarion corrigida
+
+[33mcommit 77b4d164f0ba4d1c214624e2628dc3810594fcc9[m
+Author: Lucas Silvestre <lucas.silvestre@esgland.com.br>
+Date:   Sat Jun 29 03:25:22 2024 -0300
+
+    ajustes
+
+[33mcommit c15e3a9adbb481811d5fbcc6d9ccb2ed1f48b348[m
+Author: Lucas Silvestre <lucas.silvestre@esgland.com.br>
+Date:   Sat Jun 29 02:09:33 2024 -0300
+
+    Adicionado autenticação JWT e controler de login
+
+[33mcommit d5f8aa65257aa6938411d1c7e4bc7ae315e49ca4[m
+Author: Lucas Silvestre <lucas.silvestre@esgland.com.br>
+Date:   Thu Jun 27 21:47:42 2024 -0300
+
+    validação e tratativa de erro metodo CreateUser
+
+[33mcommit 779c129f729ed16703a9114f57ef9b28c5a88571[m
+Author: Lucas Silvestre <lucas.silvestre@esgland.com.br>
+Date:   Thu Jun 27 21:14:28 2024 -0300
+
+    convertendo metodos para async
+
+[33mcommit e76708116c93f3fef740c7e78f35972e29cba93f[m[33m ([m[1;31morigin/master[m[33m, [m[1;32mmaster[m[33m)[m
+Author: Lucas Silvestre <lucas.silvestre@esgland.com.br>
+Date:   Thu Jun 27 20:47:44 2024 -0300
+
+    Adicionar arquivos de projeto.
+
+[33mcommit 5f46825ce06ae8479ee4c0b5a3837e51ed54815a[m
+Author: Lucas Silvestre <lucas.silvestre@esgland.com.br>
+Date:   Thu Jun 27 20:47:42 2024 -0300
+
+    Adicione .gitattributes e .gitignore.
